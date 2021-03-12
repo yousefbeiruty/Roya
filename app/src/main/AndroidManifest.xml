@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomMVVMRxJavaDagger">
         <activity
-            android:name=".roomtutorial.roya.ui.news.NewsActivity">
+            android:name=".roomtutorial.roya.ui.news.NewsActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

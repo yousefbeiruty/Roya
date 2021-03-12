@@ -21,6 +21,7 @@ import com.it.yousefl.roya.roomtutorial.roya.model.news.BreakingNews;
 import com.it.yousefl.roya.roomtutorial.roya.model.news.NewsModel;
 import com.it.yousefl.roya.roomtutorial.roya.model.news.SectionInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public  class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -34,9 +35,10 @@ public  class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     long DURATION = 500;
     private boolean on_attach = true;
 
-    public NewsAdapter(Context context, List<SectionInfo> list) {
+
+    public NewsAdapter(Context context) {
         this.context = context;
-        this.news = list;
+        news=new ArrayList<>();
     }
 
     @NonNull

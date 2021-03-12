@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 
@@ -19,6 +20,7 @@ import com.it.yousefl.roya.roomtutorial.roya.ui.news.adapters.PaginationListener
 import com.it.yousefl.roya.roomtutorial.roya.utils.Resource;
 import com.it.yousefl.roya.roomtutorial.roya.viewmodels.NewsViewModel;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -52,6 +54,9 @@ public class NewsActivity extends AppCompatActivity  implements SwipeRefreshLayo
 
     Sprite doubleBounce;
 
+
+    boolean flag=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,34 +68,42 @@ public class NewsActivity extends AppCompatActivity  implements SwipeRefreshLayo
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.rcNews.setLayoutManager(layoutManager);
         List<SectionInfo>list=new ArrayList<>();
-        adapter=new NewsAdapter(this,list);
+        adapter=new NewsAdapter(this);
         binding.rcNews.setAdapter(adapter);
         doubleBounce = new DoubleBounce();
 
-        getNews();
+
+        if (flag) {
+            getNews();
 
 /**
  * add scroll listener while user reach in bottom load more will call
  */
-        binding.rcNews.addOnScrollListener(new PaginationListener(layoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                getNews();
-            }
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
+            binding.rcNews.addOnScrollListener(new PaginationListener(layoutManager) {
+                @Override
+                protected void loadMoreItems() {
+                    isLoading = true;
+                    currentPage++;
+                    getNews();
+                }
+
+                @Override
+                public boolean isLastPage() {
+                    return isLastPage;
+                }
+
+                @Override
+                public boolean isLoading() {
+                    return isLoading;
+                }
+            });
+        }
     }
 
+
+
     private void getNews() {
+        flag=false;
         viewModel.getNews(currentPage).observe(this, new Observer<Resource<NewsModel>>() {
             @Override
             public void onChanged(Resource<NewsModel> newsModelResource) {
